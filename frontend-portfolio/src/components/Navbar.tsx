@@ -14,9 +14,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { icon: "linkedin", href: "https://linkedin.com/in/your-profile" },
-  { icon: "github", href: "https://github.com/your-profile" },
-  { icon: "instagram", href: "https://instagram.com/your-profile" },
+  { icon: "linkedin", href: "https://linkedin.com/in/adnanemektani" },
+  { icon: "github", href: "https://github.com/adnanemektani" },
+  { icon: "instagram", href: "https://instagram.com/adnanemektani" },
 ];
 
 const Navbar = ({ isDark, setIsDark }: NavbarProps) => {
