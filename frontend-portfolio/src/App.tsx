@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import HeroBanner from './components/HeroBanner'
 import Project from './components/Project'
 import Experience from './components/Experience'
+import Skills from './components/Skills'
 
 function App() {
   const [isDark, setIsDark] = useState(false)
@@ -29,8 +30,12 @@ function App() {
         <Experience isDark={isDark} />
       </div>
 
+      <div id="skills">
+        <Skills isDark={isDark} />
+      </div>
+
       {/* sections bach nzidowhom mn b3d */}
-      <div id="skills" />
+      
       <div id="about" />
     </div>
   )

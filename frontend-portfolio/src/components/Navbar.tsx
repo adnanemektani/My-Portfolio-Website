@@ -247,7 +247,7 @@ useEffect(() => {
               (e.currentTarget.style.backgroundColor = "#c8171d")
             }
           >
-            Hire Me
+            Get In Touch
           </button>
         </div>
       </nav>

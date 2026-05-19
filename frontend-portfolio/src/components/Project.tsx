@@ -336,45 +336,7 @@ const Projects = ({ isDark }: ProjectsProps) => {
     >
       {/* HEADER */}
       <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            backgroundColor: isDark
-              ? "rgba(200,23,29,0.12)"
-              : "rgba(200,23,29,0.08)",
-            border: "1px solid rgba(200,23,29,0.25)",
-            borderRadius: "999px",
-            padding: "6px 14px",
-            marginBottom: "1rem",
-          }}
-        >
-          <span
-            style={{
-              width: "7px",
-              height: "7px",
-              borderRadius: "50%",
-              backgroundColor: "#c8171d",
-              display: "inline-block",
-            }}
-          />
-          <span
-            style={{
-              fontSize: "12px",
-              color: "#c8171d",
-              fontWeight: 500,
-              letterSpacing: "1px",
-              textTransform: "uppercase",
-            }}
-          >
-            My Work
-          </span>
-        </motion.div>
+        
 
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
