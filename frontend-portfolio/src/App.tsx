@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from './components/Navbar'
 import HeroBanner from './components/HeroBanner'
 import Project from './components/Project'
+import Experience from './components/Experience'
 
 function App() {
   const [isDark, setIsDark] = useState(false)
@@ -24,8 +25,11 @@ function App() {
         <Project isDark={isDark} />
       </div>
 
+      <div id="experience">
+        <Experience isDark={isDark} />
+      </div>
+
       {/* sections bach nzidowhom mn b3d */}
-      <div id="experience" />
       <div id="skills" />
       <div id="about" />
     </div>
