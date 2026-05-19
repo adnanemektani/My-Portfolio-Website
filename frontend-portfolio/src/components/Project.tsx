@@ -68,46 +68,6 @@ const projects: Project[] = [
     githubUrl: "https://github.com",
     deployed: false,
   },
-  {
-    id: 6,
-    title: "DevOps Pipeline Tool",
-    description: "Outil CI/CD personnalisé pour automatiser le déploiement et monitoring des applications cloud.",
-    image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=600&q=80",
-    tags: ["Docker", "GitHub Actions", "AWS"],
-    liveUrl: "",
-    githubUrl: "https://github.com",
-    deployed: false,
-  },
-  {
-    id: 7,
-    title: "Finance Tracker",
-    description: "Application de suivi financier personnel avec graphiques analytiques et alertes budgétaires.",
-    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
-    tags: ["Vue.js", "Chart.js", "Firebase"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    deployed: true,
-  },
-  {
-    id: 8,
-    title: "Learning Management System",
-    description: "Plateforme LMS complète avec cours vidéo, quiz interactifs et suivi de progression.",
-    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&q=80",
-    tags: ["React", "Node.js", "MongoDB"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com",
-    deployed: true,
-  },
-  {
-    id: 9,
-    title: "IoT Dashboard",
-    description: "Dashboard temps réel pour visualiser et contrôler des capteurs IoT connectés via MQTT.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80",
-    tags: ["React", "MQTT", "WebSockets"],
-    liveUrl: "",
-    githubUrl: "https://github.com",
-    deployed: false,
-  },
 ];
 
 interface ProjectCardProps {
@@ -221,25 +181,23 @@ const ProjectCard = ({ project, isDark }: ProjectCardProps) => {
         </p>
 
         <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              style={{
-                fontSize: "11px",
-                fontWeight: 500,
-                color: "#c8171d",
-                backgroundColor: isDark
-                  ? "rgba(200,23,29,0.1)"
-                  : "rgba(200,23,29,0.07)",
-                border: "1px solid rgba(200,23,29,0.2)",
-                borderRadius: "5px",
-                padding: "3px 8px",
-              }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+  {project.tags.map((tag) => (
+    <span
+      key={tag}
+      style={{
+        fontSize: "11px",
+        fontWeight: 500,
+        color: isDark ? "#888" : "#777",
+        backgroundColor: isDark ? "#1e1e1e" : "#f5f5f5",
+        border: `1px solid ${isDark ? "#2a2a2a" : "#e8e8e8"}`,
+        borderRadius: "5px",
+        padding: "3px 8px",
+      }}
+    >
+      {tag}
+    </span>
+  ))}
+</div>
 
         <div
           style={{

@@ -27,10 +27,11 @@ const experiences = [
       "Continuous improvement through daily challenges and collaborative projects",
     ],
     skills: ["React", "Node.js", "MongoDB", "Python", "AI/ML"],
+    current: true,
   },
   {
     id: 2,
-    role: "Stagiaire Projet - Full-Stack Developer",
+    role: "Stagiaire Projet — Full-Stack Developer",
     company: "OCP Group",
     type: "Internship",
     period: "Jun 2024 – Sep 2024 · 4 mos",
@@ -96,13 +97,11 @@ const Experience = ({ isDark }: ExperienceProps) => {
     >
       {/* HEADER */}
       <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-        
-
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.5 }}
           style={{
             fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
             fontWeight: 700,
@@ -113,19 +112,12 @@ const Experience = ({ isDark }: ExperienceProps) => {
         >
           Work <span style={{ color: "#c8171d" }}>Experience</span>
         </motion.h2>
-
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          style={{
-            fontSize: "15px",
-            color: isDark ? "#888" : "#777",
-            maxWidth: "480px",
-            margin: "0 auto",
-            lineHeight: 1.7,
-          }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          style={{ fontSize: "15px", color: isDark ? "#666" : "#888", maxWidth: "480px", margin: "0 auto", lineHeight: 1.7 }}
         >
           A track record of internships and hands-on projects across different industries and tech stacks.
         </motion.p>
@@ -133,15 +125,11 @@ const Experience = ({ isDark }: ExperienceProps) => {
 
       {/* TIMELINE */}
       <div style={{ maxWidth: "860px", margin: "0 auto", position: "relative" }}>
-
         {/* vertical line */}
         <div style={{
-          position: "absolute",
-          left: "28px",
-          top: 0,
-          bottom: 0,
+          position: "absolute", left: "28px", top: 0, bottom: 0,
           width: "2px",
-          backgroundColor: isDark ? "#2a2a2a" : "#eeeeee",
+          backgroundColor: isDark ? "#1e1e1e" : "#f0f0f0",
         }} />
 
         {experiences.map((exp, index) => (
@@ -152,121 +140,67 @@ const Experience = ({ isDark }: ExperienceProps) => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             style={{
-              display: "flex",
-              gap: "1.75rem",
+              display: "flex", gap: "1.75rem",
               marginBottom: index < experiences.length - 1 ? "3rem" : 0,
               position: "relative",
             }}
           >
             {/* LOGO */}
             <div style={{
-              width: "58px",
-              height: "58px",
-              borderRadius: "14px",
-              backgroundColor: isDark ? "#1a1a1a" : "#f5f5f5",
-              border: `1px solid ${isDark ? "#2a2a2a" : "#e8e8e8"}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "hidden",
-              flexShrink: 0,
-              zIndex: 1,
+              width: "58px", height: "58px", borderRadius: "14px",
+              backgroundColor: isDark ? "#181818" : "#f8f8f8",
+              border: `1px solid ${isDark ? "#222" : "#ebebeb"}`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              overflow: "hidden", flexShrink: 0, zIndex: 1,
             }}>
-              <img
-                src={exp.logo}
-                alt={exp.company}
-                style={{
-                  width: "42px",
-                  height: "42px",
-                  objectFit: "contain",
-                }}
-              />
+              <img src={exp.logo} alt={exp.company} style={{ width: "42px", height: "42px", objectFit: "contain" }} />
             </div>
 
-            {/* CONTENT */}
+            {/* CONTENT CARD */}
             <div style={{
               flex: 1,
-              backgroundColor: isDark ? "#161616" : "#fafafa",
-              border: `1px solid ${isDark ? "#2a2a2a" : "#eeeeee"}`,
+              backgroundColor: isDark ? "#141414" : "#fafafa",
+              border: `1px solid ${exp.current ? "rgba(200,23,29,0.3)" : isDark ? "#1e1e1e" : "#f0f0f0"}`,
               borderRadius: "14px",
               padding: "1.5rem 1.75rem",
+              transition: "border-color 0.2s",
             }}>
               {/* TOP ROW */}
-              <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                flexWrap: "wrap",
-                gap: "0.5rem",
-                marginBottom: "0.4rem",
-              }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.4rem" }}>
                 <div>
-                  <h3 style={{
-                    margin: 0,
-                    fontSize: "16.5px",
-                    fontWeight: 700,
-                    color: isDark ? "#ffffff" : "#111111",
-                    fontFamily: "'Playfair Display', serif",
-                  }}>
+                  <h3 style={{ margin: 0, fontSize: "16px", fontWeight: 700, color: isDark ? "#f0f0f0" : "#111111", fontFamily: "'Playfair Display', serif" }}>
                     {exp.role}
                   </h3>
-                  <p style={{
-                    margin: "2px 0 0",
-                    fontSize: "13.5px",
-                    color: "#c8171d",
-                    fontWeight: 500,
-                  }}>
+                  <p style={{ margin: "3px 0 0", fontSize: "13px", color: "#c8171d", fontWeight: 500 }}>
                     {exp.company} · {exp.type}
                   </p>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <p style={{ margin: 0, fontSize: "12.5px", color: isDark ? "#777" : "#999" }}>
-                    {exp.period}
-                  </p>
-                  <p style={{ margin: "2px 0 0", fontSize: "12px", color: isDark ? "#666" : "#aaa" }}>
-                     {exp.location}
-                  </p>
+                  <p style={{ margin: 0, fontSize: "12px", color: isDark ? "#666" : "#aaa" }}>{exp.period}</p>
+                  <p style={{ margin: "2px 0 0", fontSize: "11.5px", color: isDark ? "#555" : "#bbb" }}>{exp.location}</p>
                 </div>
               </div>
 
               {/* DESCRIPTION */}
-              <p style={{
-                margin: "0.85rem 0 0.75rem",
-                fontSize: "13.5px",
-                lineHeight: 1.7,
-                color: isDark ? "#aaaaaa" : "#555555",
-              }}>
+              <p style={{ margin: "0.85rem 0 0.75rem", fontSize: "13.5px", lineHeight: 1.7, color: isDark ? "#888" : "#666" }}>
                 {exp.description}
               </p>
 
               {/* BULLETS */}
-              <ul style={{
-                margin: "0 0 1rem",
-                paddingLeft: "1.1rem",
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-              }}>
+              <ul style={{ margin: "0 0 1rem", paddingLeft: "1.1rem", display: "flex", flexDirection: "column", gap: "5px" }}>
                 {exp.bullets.map((b, i) => (
-                  <li key={i} style={{
-                    fontSize: "13px",
-                    lineHeight: 1.65,
-                    color: isDark ? "#999" : "#666",
-                  }}>
-                    {b}
-                  </li>
+                  <li key={i} style={{ fontSize: "13px", lineHeight: 1.65, color: isDark ? "#777" : "#777" }}>{b}</li>
                 ))}
               </ul>
 
-              {/* SKILLS */}
+              {/* SKILLS — subtle */}
               <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
                 {exp.skills.map((skill) => (
                   <span key={skill} style={{
-                    fontSize: "11px",
-                    fontWeight: 500,
-                    color: "#c8171d",
-                    backgroundColor: isDark ? "rgba(200,23,29,0.1)" : "rgba(200,23,29,0.07)",
-                    border: "1px solid rgba(200,23,29,0.2)",
+                    fontSize: "11px", fontWeight: 500,
+                    color: isDark ? "#888" : "#777",
+                    backgroundColor: isDark ? "#1e1e1e" : "#f5f5f5",
+                    border: `1px solid ${isDark ? "#2a2a2a" : "#e8e8e8"}`,
                     borderRadius: "5px",
                     padding: "3px 9px",
                   }}>

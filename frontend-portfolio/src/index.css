@@ -1,13 +1,129 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css');
+
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
 }
+
 :target {
   scroll-margin-top: 108px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===================== NAVBAR ===================== */
+@media (max-width: 900px) {
+  nav {
+    flex-wrap: wrap;
+    height: auto !important;
+    padding: 12px 1.25rem !important;
+    gap: 10px !important;
+  }
+
+  /* nav links row goes below */
+  nav > div:nth-child(2) {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 10px;
+    overflow-x: auto;
+  }
+}
+
+/* ===================== HERO ===================== */
+@media (max-width: 900px) {
+  /* hero section flex → column */
+  section[style*="calc(100vh - 108px)"] {
+    flex-direction: column !important;
+    padding: 3rem 1.5rem !important;
+    min-height: auto !important;
+    gap: 2.5rem !important;
+  }
+
+  section[style*="calc(100vh - 108px)"] > div:first-child {
+    flex: unset !important;
+  }
+
+  section[style*="calc(100vh - 108px)"] > div:last-child {
+    flex: unset !important;
+    width: 100% !important;
+  }
+}
+
+/* ===================== GENERAL SECTIONS ===================== */
+@media (max-width: 900px) {
+  section {
+    padding: 4rem 1.5rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  section {
+    padding: 3rem 1rem !important;
+  }
+}
+
+/* ===================== PROJECTS GRID ===================== */
+@media (max-width: 1024px) {
+  /* 3 cols → 2 cols */
+  div[style*="gridTemplateColumns: \"repeat(3, 1fr)\""],
+  div[style*='gridTemplateColumns: "repeat(3, 1fr)"'] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* 2 cols → 1 col */
+  div[style*="gridTemplateColumns: \"repeat(3, 1fr)\""],
+  div[style*='gridTemplateColumns: "repeat(3, 1fr)"'],
+  div[style*="gridTemplateColumns: \"repeat(2, 1fr)\""],
+  div[style*='gridTemplateColumns: "repeat(2, 1fr)"'] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===================== EXPERIENCE TIMELINE ===================== */
+@media (max-width: 768px) {
+  /* timeline cards full width */
+  div[style*="maxWidth: \"860px\""] > div > div:last-child {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+}
+
+/* ===================== ABOUT SECTION ===================== */
+@media (max-width: 900px) {
+  /* about main layout → column */
+  section div[style*="flex: \"0 0 370px\""] {
+    flex: unset !important;
+    width: 100% !important;
+  }
+}
+
+/* ===================== SKILLS ===================== */
+@media (max-width: 600px) {
+  /* skill cards smaller */
+  div[style*="minWidth: \"82px\""] {
+    min-width: 70px !important;
+    padding: 10px 8px !important;
+  }
+}
+
+/* ===================== FOOTER ===================== */
+@media (max-width: 768px) {
+  footer div[style*="padding: \"4rem"] {
+    padding: 3rem 1.25rem 1.5rem !important;
+  }
 }
