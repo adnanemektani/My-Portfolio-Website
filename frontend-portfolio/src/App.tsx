@@ -4,7 +4,8 @@ import HeroBanner from './components/HeroBanner'
 import Project from './components/Project'
 import Experience from './components/Experience'
 import Skills from './components/Skills'
-
+import About from './components/About'
+import Footer from './components/footer'
 function App() {
   const [isDark, setIsDark] = useState(false)
 
@@ -33,10 +34,11 @@ function App() {
       <div id="skills">
         <Skills isDark={isDark} />
       </div>
+      <div id="about">
+        <About isDark={isDark} />
+      </div>
+      <Footer isDark={isDark} />
 
-      {/* sections bach nzidowhom mn b3d */}
-      
-      <div id="about" />
     </div>
   )
 }
