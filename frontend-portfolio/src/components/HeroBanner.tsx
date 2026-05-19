@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import heroImg from "../assets/Layer 0.png";
+import useWindowSize from "../hooks/useWindowSize";
 
 interface HeroProps {
   isDark: boolean;
 }
 
-// Counter Hook
 const useCounter = (target: number, duration: number = 1500) => {
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
@@ -36,7 +36,6 @@ const useCounter = (target: number, duration: number = 1500) => {
   return { count, ref };
 };
 
-// StatItem Component
 const StatItem = ({ number, suffix, label, isDark }: { number: number; suffix: string; label: string; isDark: boolean }) => {
   const { count, ref } = useCounter(number);
   return (
@@ -52,32 +51,91 @@ const StatItem = ({ number, suffix, label, isDark }: { number: number; suffix: s
 };
 
 const Hero = ({ isDark }: HeroProps) => {
+  const { isMobile, isTablet } = useWindowSize();
+  const isSmall = isMobile || isTablet;
+
   return (
     <section
       style={{
         minHeight: "calc(100vh - 108px)",
         backgroundColor: isDark ? "#0d0d0d" : "#ffffff",
         display: "flex",
+        flexDirection: isSmall ? "column" : "row",
         alignItems: "center",
-        padding: "0 6rem",
-        gap: "4rem",
+        justifyContent: isSmall ? "flex-start" : "center",
+        padding: isMobile ? "2.5rem 1.5rem" : isTablet ? "3rem 3rem" : "0 6rem",
+        gap: isSmall ? "2rem" : "4rem",
         fontFamily: "'DM Sans', sans-serif",
         transition: "background-color 0.3s",
         overflow: "hidden",
       }}
     >
-      {/* LEFT — TEXT */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      {/* IMAGE — top on mobile */}
+      {isSmall && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: isMobile ? "1rem" : "0",
+          }}
+        >
+          <img
+            src={heroImg}
+            alt="Adnane Mektani"
+            style={{
+              width: isMobile ? "220px" : "320px",
+              objectFit: "contain",
+              filter: isDark
+                ? "drop-shadow(0 10px 30px rgba(200,23,29,0.2))"
+                : "drop-shadow(0 10px 30px rgba(0,0,0,0.1))",
+            }}
+          />
+        </motion.div>
+      )}
 
-        
-      
-       {/* TITLE */}
+      {/* LEFT — TEXT */}
+      <div
+        style={{
+          flex: isSmall ? "unset" : 1,
+          width: isSmall ? "100%" : "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.5rem",
+        }}
+      >
+        {/* BADGE */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            backgroundColor: isDark ? "rgba(200,23,29,0.12)" : "rgba(200,23,29,0.08)",
+            border: "1px solid rgba(200,23,29,0.25)",
+            borderRadius: "999px",
+            padding: "6px 14px",
+            width: "fit-content",
+          }}
+        >
+          <span style={{ width: "7px", height: "7px", borderRadius: "50%", backgroundColor: "#c8171d", display: "inline-block" }} />
+          <span style={{ fontSize: "12px", color: "#c8171d", fontWeight: 500, letterSpacing: "1px", textTransform: "uppercase" }}>
+            Available for projects
+          </span>
+        </motion.div>
+
+        {/* TITLE */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           style={{
-            fontSize: "clamp(2rem, 4vw, 3.2rem)",
+            fontSize: isMobile ? "2rem" : isTablet ? "2.4rem" : "clamp(2rem, 4vw, 3.2rem)",
             fontWeight: 700,
             fontFamily: "'Playfair Display', serif",
             color: isDark ? "#ffffff" : "#111111",
@@ -96,10 +154,10 @@ const Hero = ({ isDark }: HeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{
-            fontSize: "15.5px",
+            fontSize: isMobile ? "14.5px" : "15.5px",
             lineHeight: 1.75,
             color: isDark ? "#aaaaaa" : "#555555",
-            maxWidth: "480px",
+            maxWidth: isSmall ? "100%" : "480px",
             margin: 0,
           }}
         >
@@ -117,7 +175,12 @@ const Hero = ({ isDark }: HeroProps) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            flexWrap: "wrap",
+          }}
         >
           <button
             style={{
@@ -132,6 +195,7 @@ const Hero = ({ isDark }: HeroProps) => {
               cursor: "pointer",
               fontFamily: "'DM Sans', sans-serif",
               transition: "background-color 0.2s",
+              flex: isMobile ? 1 : "unset",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a01015")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#c8171d")}
@@ -152,6 +216,7 @@ const Hero = ({ isDark }: HeroProps) => {
               cursor: "pointer",
               fontFamily: "'DM Sans', sans-serif",
               transition: "border-color 0.2s, color 0.2s",
+              flex: isMobile ? 1 : "unset",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "#c8171d";
@@ -161,11 +226,11 @@ const Hero = ({ isDark }: HeroProps) => {
               e.currentTarget.style.borderColor = isDark ? "#444" : "#ddd";
               e.currentTarget.style.color = isDark ? "#ffffff" : "#111111";
             }}
-             onClick={() => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
-  }}
+            onClick={() => {
+              document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+            }}
           >
-            View Projects 
+            View Projects
           </button>
         </motion.div>
 
@@ -174,7 +239,12 @@ const Hero = ({ isDark }: HeroProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          style={{ display: "flex", gap: "2rem", marginTop: "0.5rem" }}
+          style={{
+            display: "flex",
+            gap: isMobile ? "1.5rem" : "2rem",
+            marginTop: "0.5rem",
+            flexWrap: "wrap",
+          }}
         >
           {[
             { number: 3, suffix: "+", label: "Projects Built" },
@@ -186,27 +256,29 @@ const Hero = ({ isDark }: HeroProps) => {
         </motion.div>
       </div>
 
-      {/* RIGHT — IMAGE */}
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}
-      >
-        <img
-          src={heroImg}
-          alt="Adnane Mektani"
-          style={{
-            width: "100%",
-            maxWidth: "580px",
-            objectFit: "contain",
-            filter: isDark
-              ? "drop-shadow(0 20px 60px rgba(200,23,29,0.15))"
-              : "drop-shadow(0 20px 60px rgba(0,0,0,0.08))",
-            transition: "filter 0.3s",
-          }}
-        />
-      </motion.div>
+      {/* RIGHT — IMAGE desktop only */}
+      {!isSmall && (
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}
+        >
+          <img
+            src={heroImg}
+            alt="Adnane Mektani"
+            style={{
+              width: "100%",
+              maxWidth: "580px",
+              objectFit: "contain",
+              filter: isDark
+                ? "drop-shadow(0 20px 60px rgba(200,23,29,0.15))"
+                : "drop-shadow(0 20px 60px rgba(0,0,0,0.08))",
+              transition: "filter 0.3s",
+            }}
+          />
+        </motion.div>
+      )}
     </section>
   );
 };

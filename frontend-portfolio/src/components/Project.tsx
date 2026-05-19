@@ -1,7 +1,8 @@
 import { useState } from "react";
-
 import { motion, AnimatePresence } from "framer-motion";
 import BtpImg from "../assets/BTP.png";
+import useWindowSize from "../hooks/useWindowSize";
+
 interface ProjectsProps {
   isDark: boolean;
 }
@@ -181,23 +182,23 @@ const ProjectCard = ({ project, isDark }: ProjectCardProps) => {
         </p>
 
         <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-  {project.tags.map((tag) => (
-    <span
-      key={tag}
-      style={{
-        fontSize: "11px",
-        fontWeight: 500,
-        color: isDark ? "#888" : "#777",
-        backgroundColor: isDark ? "#1e1e1e" : "#f5f5f5",
-        border: `1px solid ${isDark ? "#2a2a2a" : "#e8e8e8"}`,
-        borderRadius: "5px",
-        padding: "3px 8px",
-      }}
-    >
-      {tag}
-    </span>
-  ))}
-</div>
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              style={{
+                fontSize: "11px",
+                fontWeight: 500,
+                color: isDark ? "#888" : "#777",
+                backgroundColor: isDark ? "#1e1e1e" : "#f5f5f5",
+                border: `1px solid ${isDark ? "#2a2a2a" : "#e8e8e8"}`,
+                borderRadius: "5px",
+                padding: "3px 8px",
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
 
         <div
           style={{
@@ -236,7 +237,6 @@ const ProjectCard = ({ project, isDark }: ProjectCardProps) => {
             </svg>
             Source Code
           </a>
-
 
           {project.deployed && project.liveUrl && (
             <a
@@ -281,36 +281,39 @@ const ProjectCard = ({ project, isDark }: ProjectCardProps) => {
 
 const Projects = ({ isDark }: ProjectsProps) => {
   const [showAll, setShowAll] = useState(false);
+  const { isMobile, isTablet } = useWindowSize();
+
   const visibleProjects = showAll ? projects : projects.slice(0, 6);
+
+  const gridCols = isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(3, 1fr)";
+  const sectionPadding = isMobile ? "3rem 1.5rem" : isTablet ? "4rem 3rem" : "6rem";
 
   return (
     <section
+      id="projects"
       style={{
         backgroundColor: isDark ? "#0d0d0d" : "#f9f9f9",
-        padding: "6rem",
+        padding: sectionPadding,
         fontFamily: "'DM Sans', sans-serif",
         transition: "background-color 0.3s",
       }}
     >
       {/* HEADER */}
       <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-        
-
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
           style={{
-            fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
+            fontSize: isMobile ? "1.8rem" : "clamp(1.8rem, 3vw, 2.8rem)",
             fontWeight: 700,
             fontFamily: "'Playfair Display', serif",
             color: isDark ? "#ffffff" : "#111111",
             margin: "0 0 0.75rem 0",
           }}
         >
-          Featured{" "}
-          <span style={{ color: "#c8171d" }}>Projects</span>
+          Featured <span style={{ color: "#c8171d" }}>Projects</span>
         </motion.h2>
 
         <motion.p
@@ -335,8 +338,8 @@ const Projects = ({ isDark }: ProjectsProps) => {
         layout
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "1.75rem",
+          gridTemplateColumns: gridCols,
+          gap: isMobile ? "1.25rem" : "1.75rem",
         }}
       >
         <AnimatePresence>
@@ -375,6 +378,7 @@ const Projects = ({ isDark }: ProjectsProps) => {
                 color: isDark ? "#555" : "#aaa",
                 letterSpacing: "1.5px",
                 textTransform: "uppercase",
+                whiteSpace: "nowrap",
               }}
             >
               {showAll ? "Showing all projects" : `${projects.length - 6} more projects`}
