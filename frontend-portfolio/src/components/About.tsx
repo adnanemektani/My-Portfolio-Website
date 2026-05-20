@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import heroImg from "../assets/Layer 0.png";
+import useWindowSize from "../hooks/useWindowSize";
 
 interface AboutProps {
   isDark: boolean;
@@ -67,11 +68,13 @@ const TypeWriter = ({ texts }: { texts: string[] }) => {
 
 const About = ({ isDark }: AboutProps) => {
   const [showCVModal, setShowCVModal] = useState(false);
+  const { isMobile, isTablet } = useWindowSize();
+  const isSmall = isMobile || isTablet;
 
   return (
     <section style={{
       backgroundColor: isDark ? "#0d0d0d" : "#ffffff",
-      padding: "6rem",
+      padding: isMobile ? "3rem 1.25rem" : isTablet ? "4rem 2rem" : "6rem",
       fontFamily: "'DM Sans', sans-serif",
       transition: "background-color 0.3s",
       position: "relative",
@@ -80,48 +83,79 @@ const About = ({ isDark }: AboutProps) => {
       <style>{`@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}`}</style>
 
       {/* HEADER */}
-      <div style={{ textAlign: "center", marginBottom: "5rem" }}>
+      <div style={{ textAlign: "center", marginBottom: isSmall ? "2.5rem" : "5rem" }}>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 700, fontFamily: "'Playfair Display', serif", color: isDark ? "#ffffff" : "#111111", margin: 0 }}
+          style={{
+            fontSize: isMobile ? "1.8rem" : "clamp(1.8rem, 3vw, 2.8rem)",
+            fontWeight: 700,
+            fontFamily: "'Playfair Display', serif",
+            color: isDark ? "#ffffff" : "#111111",
+            margin: 0,
+          }}
         >
           The <span style={{ color: "#c8171d" }}>Story</span> Behind the Code
         </motion.h2>
       </div>
 
-      {/* MAIN LAYOUT */}
-      <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", gap: "4rem", alignItems: "flex-start" }}>
+      {/* MAIN LAYOUT — column on mobile/tablet, row on desktop */}
+      <div style={{
+        maxWidth: "1100px",
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: isSmall ? "column" : "row",
+        gap: isSmall ? "2.5rem" : "4rem",
+        alignItems: "flex-start",
+      }}>
 
-        {/* LEFT */}
+        {/* LEFT — BIG CARD + BIO */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, x: isSmall ? 0 : -30, y: isSmall ? 20 : 0 }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
           viewport={{ once: true }}
-          style={{ flex: "0 0 370px", display: "flex", flexDirection: "column", gap: "2rem" }}
+          style={{
+            flex: isSmall ? "unset" : "0 0 370px",
+            width: isSmall ? "100%" : "auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
+          }}
         >
           {/* BIG CARD */}
           <div style={{
-            position: "relative", borderRadius: "20px",
+            position: "relative",
+            borderRadius: "20px",
             border: `1.5px solid ${isDark ? "#2a2a2a" : "#e8e8e8"}`,
             overflow: "hidden",
             backgroundColor: isDark ? "#111" : "#fafafa",
             boxShadow: isDark ? "0 0 60px rgba(200,23,29,0.06)" : "0 0 60px rgba(0,0,0,0.04)",
+            // on mobile limit height so it doesn't dominate
+            maxWidth: isMobile ? "340px" : "none",
+            margin: isMobile ? "0 auto" : "0",
           }}>
-            {/* subtle red top accent */}
             <div style={{ height: "2px", background: "linear-gradient(90deg, transparent, #c8171d, transparent)" }} />
             <Particles isDark={isDark} />
 
-            <div style={{ position: "relative", zIndex: 1, padding: "1.5rem 1.5rem 0" }}>
+            <div style={{ position: "relative", zIndex: 1, padding: isMobile ? "1rem 1rem 0" : "1.5rem 1.5rem 0" }}>
               <img
                 src={heroImg}
                 alt="Adnane Mektani"
-                style={{ width: "100%", objectFit: "contain", display: "block", filter: "drop-shadow(0 20px 40px rgba(200,23,29,0.15))" }}
+                style={{
+                  width: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                  filter: "drop-shadow(0 20px 40px rgba(200,23,29,0.15))",
+                }}
               />
             </div>
 
-            <div style={{ position: "relative", zIndex: 1, padding: "1.25rem 1.5rem 1.5rem", borderTop: `1px solid ${isDark ? "#1e1e1e" : "#f0f0f0"}` }}>
+            <div style={{
+              position: "relative", zIndex: 1,
+              padding: isMobile ? "1rem" : "1.25rem 1.5rem 1.5rem",
+              borderTop: `1px solid ${isDark ? "#1e1e1e" : "#f0f0f0"}`,
+            }}>
               <p style={{ margin: 0, fontSize: "14px", color: isDark ? "#888" : "#777", lineHeight: 1.6 }}>
                 I build{" "}
                 <TypeWriter texts={["scalable web apps.", "AI-powered tools.", "clean backends.", "smart automation.", "digital products."]} />
@@ -148,7 +182,7 @@ const About = ({ isDark }: AboutProps) => {
             </p>
 
             <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginTop: "0.5rem" }}>
-              <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer"
+              <a href="https://linkedin.com/in/adnanemektani" target="_blank" rel="noopener noreferrer"
                 style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "0 1.1rem", height: "40px", backgroundColor: "#0077b5", borderRadius: "7px", color: "#fff", fontSize: "13px", fontWeight: 500, textDecoration: "none", transition: "opacity 0.2s" }}
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
@@ -174,7 +208,7 @@ const About = ({ isDark }: AboutProps) => {
         </motion.div>
 
         {/* RIGHT — EDUCATION TIMELINE */}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, width: isSmall ? "100%" : "auto" }}>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -186,7 +220,8 @@ const About = ({ isDark }: AboutProps) => {
 
           <div style={{ position: "relative" }}>
             {educationItems.map((item, index) => {
-              const isLeft = index % 2 === 0;
+              // on mobile → all cards left-aligned (no snake)
+              const isLeft = isMobile ? true : index % 2 === 0;
               return (
                 <motion.div
                   key={index}
@@ -194,22 +229,30 @@ const About = ({ isDark }: AboutProps) => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.08 }}
-                  style={{ display: "flex", justifyContent: isLeft ? "flex-start" : "flex-end", marginBottom: "1.5rem", position: "relative" }}
+                  style={{
+                    display: "flex",
+                    justifyContent: isMobile ? "flex-start" : isLeft ? "flex-start" : "flex-end",
+                    marginBottom: "1.5rem",
+                    position: "relative",
+                  }}
                 >
                   {/* connector */}
                   {index < educationItems.length - 1 && (
                     <div style={{
-                      position: "absolute", left: "50%", top: "100%",
-                      width: "1px", height: "1.5rem",
+                      position: "absolute",
+                      left: isMobile ? "20px" : "50%",
+                      top: "100%",
+                      width: "1px",
+                      height: "1.5rem",
                       backgroundColor: isDark ? "#222" : "#eeeeee",
-                      transform: "translateX(-50%)",
+                      transform: isMobile ? "none" : "translateX(-50%)",
                     }} />
                   )}
 
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     style={{
-                      width: "46%",
+                      width: isMobile ? "100%" : "46%",
                       backgroundColor: isDark ? "#141414" : "#fafafa",
                       border: `1px solid ${item.current ? "rgba(200,23,29,0.35)" : isDark ? "#1e1e1e" : "#f0f0f0"}`,
                       borderRadius: "12px",
@@ -218,10 +261,10 @@ const About = ({ isDark }: AboutProps) => {
                       transition: "box-shadow 0.2s",
                     }}
                   >
-                    {/* year badge — subtle */}
+                    {/* year badge */}
                     <div style={{
                       position: "absolute", top: "-10px",
-                      ...(isLeft ? { right: "14px" } : { left: "14px" }),
+                      right: "14px",
                       backgroundColor: item.current ? "#c8171d" : isDark ? "#1a1a1a" : "#ffffff",
                       border: `1px solid ${item.current ? "#c8171d" : isDark ? "#2a2a2a" : "#e8e8e8"}`,
                       borderRadius: "999px",
@@ -263,7 +306,7 @@ const About = ({ isDark }: AboutProps) => {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setShowCVModal(false)}
-            style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999, backdropFilter: "blur(6px)" }}
+            style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999, backdropFilter: "blur(6px)", padding: "1rem" }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}

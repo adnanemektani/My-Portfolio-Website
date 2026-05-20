@@ -274,11 +274,11 @@ useEffect(() => {
             margin: 0,
           }}
         >
-          Building{" "}
+          Smart Code, {" "}
           <strong style={{ color: "#fff", fontWeight: 600 }}>
-            Smart Solutions
+            Smarter Solutions
           </strong>{" "}
-          · Code · AI · Deploy
+          
         </p>
         <div
           style={{
