@@ -1,4 +1,10 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
+
+const SERVICE_ID       = "service_ea2pyc5";
+const TEMPLATE_NOTIFY  = "template_qzdam44";
+const TEMPLATE_CONFIRM = "template_iotm2yn";
+const PUBLIC_KEY       = "JA0i_MfWPMxOoWi9i";
 
 interface ContactProps {
   isDark: boolean;
@@ -51,6 +57,7 @@ const Contact = ({ isDark, onClose }: ContactProps) => {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // ── Design tokens — all isDark-aware ──
   const cardBg       = isDark ? "#141414" : "#ffffff";
@@ -75,11 +82,35 @@ const Contact = ({ isDark, onClose }: ContactProps) => {
     return e;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const e = validate();
     if (Object.keys(e).length > 0) { setErrors(e); return; }
     setErrors({});
-    setSubmitted(true);
+    setLoading(true);
+
+    const templateParams = {
+      first_name: form.firstName,
+      last_name: form.lastName,
+      email: form.email,
+      phone: form.phone || "Not provided",
+      country: form.country,
+      company: form.company || "Not provided",
+      project_types: form.projectTypes.join(", ") || "Not specified",
+      description: form.description || "Not provided",
+      deadline: form.deadline || "No deadline",
+      preferred_contact: form.preferredContact,
+    };
+
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_NOTIFY,  templateParams, PUBLIC_KEY);
+      await emailjs.send(SERVICE_ID, TEMPLATE_CONFIRM, templateParams, PUBLIC_KEY);
+      setSubmitted(true);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      alert("Something went wrong, please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleProjectType = (type: string) => {
@@ -224,7 +255,7 @@ const Contact = ({ isDark, onClose }: ContactProps) => {
                 {fieldGroup(
                   <>
                     <label style={labelStyle}>First Name <span style={{ color: "#c8171d" }}>*</span></label>
-                    <input style={inputStyle(!!errors.firstName)} placeholder="John" value={form.firstName}
+                    <input style={inputStyle(!!errors.firstName)} placeholder="" value={form.firstName}
                       onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                       onFocus={(e) => (e.currentTarget.style.borderColor = "#c8171d")}
                       onBlur={(e) => (e.currentTarget.style.borderColor = inputBlur(!!errors.firstName))}
@@ -234,7 +265,7 @@ const Contact = ({ isDark, onClose }: ContactProps) => {
                 {fieldGroup(
                   <>
                     <label style={labelStyle}>Last Name <span style={{ color: "#c8171d" }}>*</span></label>
-                    <input style={inputStyle(!!errors.lastName)} placeholder="Doe" value={form.lastName}
+                    <input style={inputStyle(!!errors.lastName)} placeholder="" value={form.lastName}
                       onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                       onFocus={(e) => (e.currentTarget.style.borderColor = "#c8171d")}
                       onBlur={(e) => (e.currentTarget.style.borderColor = inputBlur(!!errors.lastName))}
@@ -246,7 +277,7 @@ const Contact = ({ isDark, onClose }: ContactProps) => {
               {fieldGroup(
                 <>
                   <label style={labelStyle}>Email Address <span style={{ color: "#c8171d" }}>*</span></label>
-                  <input type="email" style={inputStyle(!!errors.email)} placeholder="john@example.com" value={form.email}
+                  <input type="email" style={inputStyle(!!errors.email)} placeholder="name@company.com" value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     onFocus={(e) => (e.currentTarget.style.borderColor = "#c8171d")}
                     onBlur={(e) => (e.currentTarget.style.borderColor = inputBlur(!!errors.email))}
@@ -292,7 +323,7 @@ const Contact = ({ isDark, onClose }: ContactProps) => {
                 {fieldGroup(
                   <>
                     <label style={labelStyle}>Company / Project Name <span style={{ color: textMuted, fontWeight: 400, marginLeft: "6px" }}>(optional)</span></label>
-                    <input style={inputStyle()} placeholder="Acme Inc." value={form.company}
+                    <input style={inputStyle()} placeholder="" value={form.company}
                       onChange={(e) => setForm({ ...form, company: e.target.value })}
                       onFocus={(e) => (e.currentTarget.style.borderColor = "#c8171d")}
                       onBlur={(e) => (e.currentTarget.style.borderColor = inputBorder)}
@@ -419,15 +450,29 @@ const Contact = ({ isDark, onClose }: ContactProps) => {
 
               <button
                 onClick={handleSubmit}
-                style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0 2rem", height: "46px", backgroundColor: "#c8171d", border: "none", borderRadius: "8px", color: "#fff", fontSize: "14px", fontWeight: 600, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "background-color 0.2s", letterSpacing: "0.2px" }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a01015")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#c8171d")}
+                disabled={loading}
+                style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0 2rem", height: "46px", backgroundColor: "#c8171d", border: "none", borderRadius: "8px", color: "#fff", fontSize: "14px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", fontFamily: "'DM Sans', sans-serif", transition: "background-color 0.2s", letterSpacing: "0.2px", opacity: loading ? 0.75 : 1 }}
+                onMouseEnter={(e) => { if (!loading) e.currentTarget.style.backgroundColor = "#a01015"; }}
+                onMouseLeave={(e) => { if (!loading) e.currentTarget.style.backgroundColor = "#c8171d"; }}
               >
-                Start My Application
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
+                {loading ? (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+                      style={{ animation: "spin 0.8s linear infinite" }}>
+                      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Start My Application
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </>
+                )}
               </button>
+              <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
             </div>
           </div>
         </div>
