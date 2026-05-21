@@ -140,12 +140,12 @@ const Hero = ({ isDark, onContactClick }: HeroProps) => {
             margin: 0,
           }}
         >
-          Vous avez une idée, une entreprise à digitaliser, ou un produit à construire ?
-          Je transforme vos ambitions en solutions concrètes — applications web sur mesure,
-          intégration d'intelligence artificielle, et automatisation intelligente.
+          Have an idea or a business to digitize? 
+          I turn your ambitions into reality building custom web applications,
+          seamless AI integrations, and intelligent automation.
           <br /><br />
           <span style={{ color: isDark ? "#dddddd" : "#222222", fontWeight: 500 }}>
-            Startup, PME ou projet individuel, construisons quelque chose qui compte.
+          Whether you're a startup, SME, or an individual, let’s build something that matters.
           </span>
         </motion.p>
 

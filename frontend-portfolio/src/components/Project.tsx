@@ -329,7 +329,7 @@ const Projects = ({ isDark }: ProjectsProps) => {
             lineHeight: 1.7,
           }}
         >
-          A selection of projects I have built — from web apps to AI-powered tools.
+          A selection of projects I have built  from web apps to AI-powered tools.
         </motion.p>
       </div>
 

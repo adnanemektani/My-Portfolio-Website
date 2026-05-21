@@ -8,12 +8,12 @@ interface AboutProps {
 }
 
 const educationItems = [
-  { year: "2020", title: "Baccalauréat", school: "Ibnou Arabi", field: "Sciences de la Vie et de la Terre" },
-  { year: "2023", title: "Cycle Préparatoire", school: "EMPSI", field: "Advertising & Développement Digital" },
-  { year: "2023", title: "DEUG", school: "Faculté des Sciences Ain Chock", field: "Biology & Biological Sciences" },
-  { year: "2024", title: "Bachelor — Marketing Digital", school: "EMPSI", field: "Marketing Digital" },
-  { year: "2024", title: "Licence Pro — Full Stack & DevOps", school: "Faculté des Sciences Ain Chock", field: "Développement Full Stack et DevOps" },
-  { year: "2025", title: "Master — Computer Engineering & AI", school: "Faculté des Sciences Ain Chock", field: "Computer Engineering and Artificial Intelligence", current: true },
+  { year: "2020", title: "High School Diploma", school: "Ibnou Arabi", field: "Life and Earth Sciences" },
+  { year: "2023", title: "Preparatory Class", school: "EMPSI", field: "Advertising & Digital Development" },
+  { year: "2023", title: "DEUG", school: "Aïn Chock Faculty of Sciences", field: "Biology & Biological Sciences" },
+  { year: "2024", title: "Bachelor — Marketing Digital", school: "EMPSI", field: "Digital Marketing" },
+  { year: "2024", title: "Professional Bachelor’s Degree — Full Stack & DevOps", school: "Aïn Chock Faculty of Sciences", field: "Full Stack & DevOps Development" },
+  { year: "2025", title: "Master's Degree — Computer Engineering & AI", school: "Aïn Chock Faculty of Sciences", field: "Computer Engineering and Artificial Intelligence", current: true },
 ];
 
 const Particles = ({ isDark }: { isDark: boolean }) => (
@@ -161,7 +161,7 @@ const About = ({ isDark }: AboutProps) => {
                 <TypeWriter texts={["scalable web apps.", "AI-powered tools.", "clean backends.", "smart automation.", "digital products."]} />
               </p>
               <div style={{ display: "flex", gap: "1.5rem", marginTop: "1rem" }}>
-                {[{ val: "4+", label: "Internships" }, { val: "15+", label: "Projects" }, { val: "3+", label: "Years" }].map((s) => (
+                {[{ val: "4+", label: "Internships" }, { val: "5+", label: "Projects" }, { val: "3+", label: "Years" }].map((s) => (
                   <div key={s.label} style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "20px", fontWeight: 700, color: "#c8171d", fontFamily: "'Playfair Display', serif" }}>{s.val}</div>
                     <div style={{ fontSize: "10px", color: isDark ? "#555" : "#aaa", letterSpacing: "0.5px", textTransform: "uppercase" }}>{s.label}</div>
@@ -174,11 +174,11 @@ const About = ({ isDark }: AboutProps) => {
           {/* BIO */}
           <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
             <p style={{ margin: 0, fontSize: "14.5px", lineHeight: 1.8, color: isDark ? "#888" : "#666" }}>
-              Fullstack Developer and AI Engineer based in Casablanca, Morocco. I build end-to-end digital products — from clean interfaces to robust backends and intelligent automation.
+              Full-Stack Developer and AI Engineer based in Casablanca, Morocco. I don’t just write code; I build functional, intelligent solutions that solve real business problems. From custom web architectures to AI-driven automation, I translate your vision into high-performing products.
             </p>
             <p style={{ margin: 0, fontSize: "14.5px", lineHeight: 1.8, color: isDark ? "#888" : "#666" }}>
-              Startup, company, or solo project —{" "}
-              <span style={{ color: isDark ? "#ddd" : "#222", fontWeight: 500 }}>I work with any stack and adapt to your vision.</span>
+              My approach is rooted in clear communication and efficient delivery. Whether it's a startup idea, an enterprise-scale challenge, or a solo project,{" "}
+              <span style={{ color: isDark ? "#ddd" : "#222", fontWeight: 500 }}>I work with any stack and adapt to your vision.</span> I focus on building systems that are not only robust and scalable but also perfectly aligned with your business goals—all while keeping a sharp eye on the latest industry standards.
             </p>
 
             <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginTop: "0.5rem" }}>

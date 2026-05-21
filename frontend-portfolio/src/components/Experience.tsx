@@ -31,7 +31,7 @@ const experiences = [
   },
   {
     id: 2,
-    role: "Stagiaire Projet — Full-Stack Developer",
+    role: "Project Intern — Full-Stack Developer",
     company: "OCP Group",
     type: "Internship",
     period: "Jun 2024 – Sep 2024 · 4 mos",
