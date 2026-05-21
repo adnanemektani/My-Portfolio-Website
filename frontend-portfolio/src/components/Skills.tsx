@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import React from "react";
+
 interface SkillsProps {
   isDark: boolean;
 }
 
-// SVG icons for category headers — rouge
 const CategoryIcons: Record<string, React.ReactNode> = {
   Frontend: (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c8171d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -151,11 +151,10 @@ const SkillCard = ({
         border: `1px solid ${isDark ? "#2a2a2a" : "#eeeeee"}`,
         borderRadius: "12px",
         cursor: "default",
-        minWidth: "82px",
+        width: "82px",
+        boxSizing: "border-box",
         transition: "border-color 0.2s, box-shadow 0.2s",
-        
       }}
-      
     >
       <img
         src={icon}
@@ -194,6 +193,7 @@ const SkillCard = ({
 const Skills = ({ isDark }: SkillsProps) => {
   return (
     <section
+      id="skills"
       style={{
         backgroundColor: isDark ? "#0d0d0d" : "#f9f9f9",
         padding: "6rem",
@@ -203,8 +203,6 @@ const Skills = ({ isDark }: SkillsProps) => {
     >
       {/* HEADER */}
       <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-        
-
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -239,7 +237,15 @@ const Skills = ({ isDark }: SkillsProps) => {
       </div>
 
       {/* CATEGORIES */}
-      <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "2.5rem" }}>
+      <div
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "2.5rem",
+        }}
+      >
         {categories.map((cat, catIndex) => (
           <motion.div
             key={cat.label}
@@ -251,21 +257,30 @@ const Skills = ({ isDark }: SkillsProps) => {
             {/* CATEGORY LABEL */}
             <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1rem" }}>
               {CategoryIcons[cat.label]}
-              <h3 style={{
-                margin: 0,
-                fontSize: "13px",
-                fontWeight: 600,
-                color: isDark ? "#ffffff" : "#111111",
-                letterSpacing: "1.5px",
-                textTransform: "uppercase",
-              }}>
+              <h3
+                style={{
+                  margin: 0,
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: isDark ? "#ffffff" : "#111111",
+                  letterSpacing: "1.5px",
+                  textTransform: "uppercase",
+                }}
+              >
                 {cat.label}
               </h3>
               <div style={{ flex: 1, height: "1px", backgroundColor: isDark ? "#2a2a2a" : "#e8e8e8", marginLeft: "0.5rem" }} />
             </div>
 
-            {/* SKILLS ROW */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+            {/* SKILLS GRID — centered via justify-content */}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "0.75rem",
+                justifyContent: cat.skills.length <= 40 ? "center" : "flex-start",
+              }}
+            >
               {cat.skills.map((skill, i) => (
                 <SkillCard
                   key={skill.name}
@@ -273,7 +288,11 @@ const Skills = ({ isDark }: SkillsProps) => {
                   icon={skill.icon}
                   isDark={isDark}
                   index={i}
-                  isInvertable={skill.name === "Express" || skill.name === "Next.js" || skill.name === "GitHub"}
+                  isInvertable={
+                    skill.name === "Express" ||
+                    skill.name === "Next.js" ||
+                    skill.name === "GitHub"
+                  }
                 />
               ))}
             </div>

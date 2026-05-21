@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 interface NavbarProps {
   isDark: boolean;
   setIsDark: (val: boolean) => void;
+  onContactClick: () => void;
 }
 
 const navLinks = [
@@ -19,44 +20,47 @@ const socialLinks = [
   { icon: "instagram", href: "https://instagram.com/adnanemektani" },
 ];
 
-const Navbar = ({ isDark, setIsDark }: NavbarProps) => {
+const Navbar = ({ isDark, setIsDark, onContactClick }: NavbarProps) => {
   const [activeLink, setActiveLink] = useState("Home");
+  const [scrolled, setScrolled] = useState(false);
 
-useEffect(() => {
-  const sections = ["home", "projects", "experience", "skills", "about"];
-  
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          const match = navLinks.find(
-            (l) => l.href === `#${id}`
-          );
-          if (match) setActiveLink(match.label);
-        }
-      });
-    },
-    {
-      rootMargin: "-108px 0px -50% 0px",
-      threshold: 0,
-    }
-  );
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  sections.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
-
-  return () => observer.disconnect();
-}, []);
+  useEffect(() => {
+    const sections = ["home", "projects", "experience", "skills", "about"];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const match = navLinks.find((l) => l.href === `#${id}`);
+            if (match) setActiveLink(match.label);
+          }
+        });
+      },
+      { rootMargin: "-108px 0px -50% 0px", threshold: 0 }
+    );
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div
       style={{
-        position: "sticky",
+        position: "fixed",
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 1000,
+        boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.15)" : "none",
+        transition: "box-shadow 0.3s",
       }}
     >
       {/* NAVBAR */}
@@ -75,14 +79,7 @@ useEffect(() => {
         }}
       >
         {/* LOGO */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            lineHeight: 1.15,
-            flexShrink: 0,
-          }}
-        >
+        <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.15, flexShrink: 0 }}>
           <span
             style={{
               fontFamily: "'Playfair Display', serif",
@@ -94,14 +91,7 @@ useEffect(() => {
           >
             Adnane
           </span>
-          <span
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "20px",
-              fontWeight: 700,
-              color: "#c8171d",
-            }}
-          >
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "20px", fontWeight: 700, color: "#c8171d" }}>
             Mektani
           </span>
         </div>
@@ -116,30 +106,16 @@ useEffect(() => {
               style={{
                 fontSize: "13.5px",
                 fontWeight: activeLink === link.label ? 500 : 400,
-                color:
-                  activeLink === link.label
-                    ? "#c8171d"
-                    : isDark
-                    ? "#cccccc"
-                    : "#444444",
+                color: activeLink === link.label ? "#c8171d" : isDark ? "#cccccc" : "#444444",
                 padding: "6px 12px",
                 cursor: "pointer",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
-                borderBottom:
-                  activeLink === link.label
-                    ? "2px solid #c8171d"
-                    : "2px solid transparent",
+                borderBottom: activeLink === link.label ? "2px solid #c8171d" : "2px solid transparent",
                 transition: "all 0.18s",
               }}
-              onMouseEnter={(e) => {
-                if (activeLink !== link.label)
-                  e.currentTarget.style.color = "#c8171d";
-              }}
-              onMouseLeave={(e) => {
-                if (activeLink !== link.label)
-                  e.currentTarget.style.color = isDark ? "#cccccc" : "#444444";
-              }}
+              onMouseEnter={(e) => { if (activeLink !== link.label) e.currentTarget.style.color = "#c8171d"; }}
+              onMouseLeave={(e) => { if (activeLink !== link.label) e.currentTarget.style.color = isDark ? "#cccccc" : "#444444"; }}
             >
               {link.label}
             </a>
@@ -147,14 +123,7 @@ useEffect(() => {
         </div>
 
         {/* RIGHT SIDE */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.85rem",
-            flexShrink: 0,
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "0.85rem", flexShrink: 0 }}>
           {/* DARK MODE TOGGLE */}
           <div
             onClick={() => setIsDark(!isDark)}
@@ -188,27 +157,11 @@ useEffect(() => {
               }}
             >
               {isDark ? (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fff"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
               ) : (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#333"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round">
                   <circle cx="12" cy="12" r="4" />
                   <line x1="12" y1="2" x2="12" y2="5" />
                   <line x1="12" y1="19" x2="12" y2="22" />
@@ -223,8 +176,9 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* HIRE ME BUTTON */}
+          {/* GET IN TOUCH BUTTON */}
           <button
+            onClick={onContactClick}
             style={{
               padding: "0 1.3rem",
               height: "38px",
@@ -240,12 +194,8 @@ useEffect(() => {
               flexShrink: 0,
               transition: "background-color 0.2s",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = "#a01015")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = "#c8171d")
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a01015")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#c8171d")}
           >
             Get In Touch
           </button>
@@ -256,37 +206,20 @@ useEffect(() => {
       <div
         style={{
           backgroundColor: "#c8171d",
-          padding: "9px 2.5rem",
+          padding: "3px 3rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "1.25rem",
+          gap: "0.3rem",
           flexWrap: "wrap",
           fontFamily: "'DM Sans', sans-serif",
         }}
       >
-        <p
-          style={{
-            fontSize: "11px",
-            color: "rgba(255,255,255,0.92)",
-            letterSpacing: "1.8px",
-            textTransform: "uppercase",
-            margin: 0,
-          }}
-        >
-          Smart Code, {" "}
-          <strong style={{ color: "#fff", fontWeight: 600 }}>
-            Smarter Solutions
-          </strong>{" "}
-          
+        <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.92)", letterSpacing: "1.8px", textTransform: "uppercase", margin: 0 }}>
+          Smart Code,{" "}
+          <strong style={{ color: "#fff", fontWeight: 600 }}>Smarter Solutions</strong>
         </p>
-        <div
-          style={{
-            width: "1px",
-            height: "16px",
-            background: "rgba(255,255,255,0.35)",
-          }}
-        />
+        <div style={{ width: "1px", height: "16px", background: "rgba(255,255,255,0.35)" }} />
         <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
           {socialLinks.map(({ icon, href }) => (
             <a
@@ -308,12 +241,8 @@ useEffect(() => {
                 textDecoration: "none",
                 transition: "background 0.18s",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "rgba(255,255,255,0.3)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "rgba(255,255,255,0.15)")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.3)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
             >
               <i className={`ti ti-brand-${icon}`} />
             </a>

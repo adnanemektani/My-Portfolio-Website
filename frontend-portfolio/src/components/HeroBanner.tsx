@@ -5,6 +5,7 @@ import useWindowSize from "../hooks/useWindowSize";
 
 interface HeroProps {
   isDark: boolean;
+  onContactClick: () => void;
 }
 
 const useCounter = (target: number, duration: number = 1500) => {
@@ -50,7 +51,7 @@ const StatItem = ({ number, suffix, label, isDark }: { number: number; suffix: s
   );
 };
 
-const Hero = ({ isDark }: HeroProps) => {
+const Hero = ({ isDark, onContactClick }: HeroProps) => {
   const { isMobile, isTablet } = useWindowSize();
   const isSmall = isMobile || isTablet;
 
@@ -107,28 +108,6 @@ const Hero = ({ isDark }: HeroProps) => {
           gap: "1.5rem",
         }}
       >
-        {/* BADGE */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            backgroundColor: isDark ? "rgba(200,23,29,0.12)" : "rgba(200,23,29,0.08)",
-            border: "1px solid rgba(200,23,29,0.25)",
-            borderRadius: "999px",
-            padding: "6px 14px",
-            width: "fit-content",
-          }}
-        >
-          <span style={{ width: "7px", height: "7px", borderRadius: "50%", backgroundColor: "#c8171d", display: "inline-block" }} />
-          <span style={{ fontSize: "12px", color: "#c8171d", fontWeight: 500, letterSpacing: "1px", textTransform: "uppercase" }}>
-            Available for projects
-          </span>
-        </motion.div>
-
         {/* TITLE */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -183,6 +162,7 @@ const Hero = ({ isDark }: HeroProps) => {
           }}
         >
           <button
+            onClick={onContactClick}
             style={{
               padding: "0 1.75rem",
               height: "48px",
