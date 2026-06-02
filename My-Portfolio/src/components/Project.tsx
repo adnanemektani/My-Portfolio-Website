@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BtpImg from "../assets/BTP.png";
-import PriceP from "../assets/PricePulse.png";
+import PriceP from "../assets/PriceP.png";
 import useWindowSize from "../hooks/useWindowSize";
 
 interface ProjectsProps {
