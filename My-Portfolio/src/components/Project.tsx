@@ -36,7 +36,7 @@ const projects: Project[] = [
   description:
     "Full-stack web application that monitors product prices, simulates real-time market fluctuations, and provides an interactive dashboard for tracking trends. Built with React, TypeScript, Express, PostgreSQL, and Docker.",
   image: PriceP,
-  tags: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Docker", "Jest", "Supertest" ,"Cypress"],
+  tags: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Docker", "Jest", "Supertest" ,"Cypress", "Tailwind CSS", "REST API", "Railway", "Nginx"],
   liveUrl: "https://gino-legal-tech.vercel.app",
   githubUrl: "https://github.com/adnanemektani/GINO-LegalTech-.git",
   deployed: true,
