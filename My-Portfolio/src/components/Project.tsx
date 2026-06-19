@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BtpImg from "../assets/BTP.png";
 import PriceP from "../assets/PriceP.png";
+import VrBoost from "../assets/VrBoostAgency.png"
 import useWindowSize from "../hooks/useWindowSize";
 
 interface ProjectsProps {
@@ -21,15 +22,16 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: 1,
-    title: "E-MPGT — Intelligent BTP Document Assistant",
-    description: "AI-powered RAG system for construction companies. Centralizes and analyzes BTP documents (PDF, Word, Excel, Images) using vector embeddings. Features multi-project management, automatic Gmail sync, and intelligent Q&A powered by LLaMA 3 via Groq.",
-    image: BtpImg,
-    tags: ["Python", "LangChain", "Pinecone", "Groq", "RAG", "Streamlit", "HuggingFace"],
-    liveUrl: "https://e-mpgt---ai-system-for-construction-data-btp-project-mnjwguu2q.streamlit.app/",
-    githubUrl: "https://github.com/adnanemektani/E-MPGT---AI-System-for-Construction-Data-BTP-Project.git",
-    deployed: true,
-  },
+  id: 1,
+  title: "VR Boost — Home Staging Virtuel",
+  description: "A premium virtual Home Staging web app built for VR Boost Agency's technical recruitment challenge. Features a full management dashboard with visit tracking, an interactive 3D staging editor with furniture catalog (654+ items), virtual meeting management with scheduling and cancellation flows, an immersive Hub & Avatar experience, and a conversion-focused landing page — all built with a glassmorphism design system on a blue-violet-pink gradient.",
+  image: VrBoost,
+  tags: ["React", "TypeScript", "Tailwind CSS v3", "Framer Motion", "React Router DOM", "Lucide React"],
+  liveUrl: "https://vr-boost-agency-gold.vercel.app",
+  githubUrl: "https://github.com/adnanemektani/VR-Boost-Agency/tree/11837759c1c2f57a540b85cf5bbc298c53c7aa56/vr-boost-staging",
+  deployed: true,
+},
+  
   {
   id: 2,
   title: "PricePulse - Smart Price Tracker",
@@ -43,12 +45,12 @@ const projects: Project[] = [
 },
   {
     id: 3,
-    title: "CV Generator AI",
-    description: "Générateur de CV intelligent qui utilise l'IA pour optimiser le contenu selon le poste visé.",
-    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&q=80",
-    tags: ["React", "Python", "FastAPI"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com",
+    title: "E-MPGT — Intelligent BTP Document Assistant",
+    description: "AI-powered RAG system for construction companies. Centralizes and analyzes BTP documents (PDF, Word, Excel, Images) using vector embeddings. Features multi-project management, automatic Gmail sync, and intelligent Q&A powered by LLaMA 3 via Groq.",
+    image: BtpImg,
+    tags: ["Python", "LangChain", "Pinecone", "Groq", "RAG", "Streamlit", "HuggingFace"],
+    liveUrl: "https://e-mpgt---ai-system-for-construction-data-btp-project-mnjwguu2q.streamlit.app/",
+    githubUrl: "https://github.com/adnanemektani/E-MPGT---AI-System-for-Construction-Data-BTP-Project.git",
     deployed: true,
   },
   {
