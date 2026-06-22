@@ -4,6 +4,7 @@ import BtpImg from "../assets/BTP.png";
 import PriceP from "../assets/PriceP.png";
 import VrBoost from "../assets/VrBoostAgency.png";
 import useWindowSize from "../hooks/useWindowSize";
+import { createPortal } from "react-dom";
 
 interface ProjectsProps {
   isDark: boolean;
@@ -22,7 +23,6 @@ interface Project {
 }
 
 const projects: Project[] = [
-  
   {
     id: 1,
     title: "AdnaneGPT — AI SaaS Assistant",
@@ -63,21 +63,29 @@ const projects: Project[] = [
     githubUrl: "https://github.com/adnanemektani/E-MPGT---AI-System-for-Construction-Data-BTP-Project.git",
     deployed: true,
   },
-  
 ];
 
 // ─── VIDEO MEDIA COMPONENT ────────────────────────────────────────
 const VideoMedia = ({ src, isDark }: { src: string; isDark: boolean }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalMuted, setIsModalMuted] = useState(false);
 
   const handleMouseEnter = () => {
+    if (isModalOpen) return; // ← fix: mkatbdach play ila modal mftouh
     setIsHovered(true);
-    videoRef.current?.play().catch(() => {});
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      setIsMuted(true);
+      videoRef.current.play().catch(() => {});
+    }
   };
 
   const handleMouseLeave = () => {
+    if (isModalOpen) return;
     setIsHovered(false);
     if (videoRef.current) {
       videoRef.current.pause();
@@ -88,95 +96,216 @@ const VideoMedia = ({ src, isDark }: { src: string; isDark: boolean }) => {
   const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
+      const next = !isMuted;
+      videoRef.current.muted = next;
+      setIsMuted(next);
+    }
+  };
+
+  const handleClick = () => {
+    setIsModalOpen(true);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setIsHovered(false);
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause();
+      modalVideoRef.current.currentTime = 0;
+    }
+  };
+
+  const toggleModalMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (modalVideoRef.current) {
+      const next = !isModalMuted;
+      modalVideoRef.current.muted = next;
+      setIsModalMuted(next);
     }
   };
 
   return (
-    <div
-      style={{ position: "relative", overflow: "hidden", height: "200px", cursor: "pointer" }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <video
-        ref={videoRef}
-        src={src}
-        muted
-        loop
-        playsInline
-        style={{
-          width: "100%", height: "200px", objectFit: "cover", display: "block",
-          transition: "transform 0.4s",
-          transform: isHovered ? "scale(1.02)" : "scale(1)",
-        }}
-      />
-
-      {/* Play overlay — visible when NOT hovered */}
-      {!isHovered && (
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundColor: "rgba(0,0,0,0.4)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <div style={{
-            width: "52px", height: "52px", borderRadius: "50%",
-            backgroundColor: "rgba(200,23,29,0.9)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 4px 20px rgba(200,23,29,0.4)",
-          }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff">
-              <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-          </div>
-        </div>
-      )}
-
-      {/* Mute/Unmute button — visible when hovered */}
-      {isHovered && (
-        <button
-          onClick={toggleMute}
+    <>
+      {/* ── MODAL OVERLAY ── */}
+      {isModalOpen && createPortal (
+        <div
+          onClick={closeModal}
           style={{
-            position: "absolute", bottom: "10px", right: "10px",
-            width: "32px", height: "32px", borderRadius: "50%",
-            backgroundColor: "rgba(0,0,0,0.65)",
-            border: "1px solid rgba(255,255,255,0.2)",
+            position: "fixed", inset: 0, zIndex: 9999,
+            backgroundColor: "rgba(0,0,0,0.92)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "pointer", transition: "background-color 0.2s",
+            padding: "1rem",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(200,23,29,0.85)")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.65)")}
         >
-          {isMuted ? (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-              <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-            </svg>
-          ) : (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-            </svg>
-          )}
-        </button>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: "relative", width: "100%", maxWidth: "900px",
+              borderRadius: "12px", overflow: "hidden",
+              boxShadow: "0 0 80px rgba(200,23,29,0.2)",
+            }}
+          >
+            <video
+              ref={modalVideoRef}
+              src={src}
+              autoPlay
+              loop
+              playsInline
+              style={{ width: "100%", display: "block", maxHeight: "80vh", objectFit: "contain", backgroundColor: "#000" }}
+            />
+            {/* Modal controls */}
+            <div style={{
+              position: "absolute", bottom: 0, left: 0, right: 0,
+              padding: "12px 16px",
+              background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+            }}>
+              <button onClick={toggleModalMute} style={{
+                width: "36px", height: "36px", borderRadius: "50%",
+                backgroundColor: "rgba(0,0,0,0.6)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer",
+              }}>
+                {isModalMuted ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+                  </svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  </svg>
+                )}
+              </button>
+              <button onClick={closeModal} style={{
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "6px 16px", borderRadius: "6px",
+                backgroundColor: "rgba(200,23,29,0.85)",
+                border: "none", color: "#fff",
+                fontSize: "13px", fontWeight: 500,
+                cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
+              }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body 
       )}
 
-      {/* Demo badge */}
-      <div style={{
-        position: "absolute", top: "10px", left: "10px",
-        backgroundColor: isDark ? "rgba(20,20,20,0.85)" : "rgba(255,255,255,0.9)",
-        border: "1px solid rgba(200,23,29,0.3)",
-        borderRadius: "6px", padding: "3px 10px",
-        display: "flex", alignItems: "center", gap: "5px",
-        backdropFilter: "blur(4px)",
-      }}>
-        <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#c8171d" }} />
-        <span style={{ fontSize: "10px", fontWeight: 600, color: "#c8171d", letterSpacing: "1px", textTransform: "uppercase" }}>
-          Demo
-        </span>
+      {/* ── THUMBNAIL ── */}
+      <div
+        style={{ position: "relative", overflow: "hidden", height: "200px", cursor: "pointer" }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+      >
+        <video
+          ref={videoRef}
+          src={src}
+          muted
+          loop
+          playsInline
+          style={{
+            width: "100%", height: "200px", objectFit: "cover", display: "block",
+            transition: "transform 0.4s",
+            transform: isHovered ? "scale(1.02)" : "scale(1)",
+          }}
+        />
+
+        {/* Play overlay — visible when NOT hovered */}
+        {!isHovered && (
+          <div style={{
+            position: "absolute", inset: 0,
+            backgroundColor: "rgba(0,0,0,0.4)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <div style={{
+              width: "52px", height: "52px", borderRadius: "50%",
+              backgroundColor: "rgba(200,23,29,0.9)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 4px 20px rgba(200,23,29,0.4)",
+            }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+          </div>
+        )}
+
+        {/* Click to expand hint */}
+        {isHovered && (
+          <div style={{
+            position: "absolute", top: "10px", left: "50%", transform: "translateX(-50%)",
+            backgroundColor: "rgba(0,0,0,0.55)",
+            borderRadius: "6px", padding: "3px 10px",
+            display: "flex", alignItems: "center", gap: "5px",
+            backdropFilter: "blur(4px)", pointerEvents: "none",
+          }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+            <span style={{ fontSize: "10px", color: "#fff", letterSpacing: "0.5px" }}>Click to expand</span>
+          </div>
+        )}
+
+        {/* Mute/Unmute button */}
+        {isHovered && (
+          <button
+            onClick={toggleMute}
+            style={{
+              position: "absolute", bottom: "10px", right: "10px",
+              width: "32px", height: "32px", borderRadius: "50%",
+              backgroundColor: "rgba(0,0,0,0.65)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", transition: "background-color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(200,23,29,0.85)")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.65)")}
+          >
+            {isMuted ? (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+              </svg>
+            ) : (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            )}
+          </button>
+        )}
+
+        {/* Demo badge */}
+        <div style={{
+          position: "absolute", top: "10px", left: "10px",
+          backgroundColor: isDark ? "rgba(20,20,20,0.85)" : "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(200,23,29,0.3)",
+          borderRadius: "6px", padding: "3px 10px",
+          display: "flex", alignItems: "center", gap: "5px",
+          backdropFilter: "blur(4px)",
+        }}>
+          <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#c8171d" }} />
+          <span style={{ fontSize: "10px", fontWeight: 600, color: "#c8171d", letterSpacing: "1px", textTransform: "uppercase" }}>
+            Demo
+          </span>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
