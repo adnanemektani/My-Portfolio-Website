@@ -61,7 +61,7 @@ const projects: Project[] = [
     tags: ["Python", "LangChain", "Pinecone", "Groq", "RAG", "Streamlit", "HuggingFace"],
     liveUrl: "https://e-mpgt---ai-system-for-construction-data-btp-project-mnjwguu2q.streamlit.app/",
     githubUrl: "https://github.com/adnanemektani/E-MPGT---AI-System-for-Construction-Data-BTP-Project.git",
-    deployed: true,
+    deployed: false,
   },
 ];
 
