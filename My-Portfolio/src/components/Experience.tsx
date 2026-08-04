@@ -4,6 +4,9 @@ import geeksLogo from "../assets/GeeksInstitut.png";
 import ocpLogo from "../assets/OCP.png";
 import empsiLogo from "../assets/EmpsiConsulting.png";
 import arkasLogo from "../assets/Arkas.png";
+import empgtLogo from "../assets/E-MPGT.png";
+import batimobLogo from "../assets/BATIMOB.webp";
+import amlabsLogo from "../assets/AMLabs.png";
 
 interface ExperienceProps {
   isDark: boolean;
@@ -12,10 +15,67 @@ interface ExperienceProps {
 const experiences = [
   {
     id: 1,
+    role: "Founder & AI Engineer",
+    company: "AM Labs",
+    type: "Self-employed",
+    period: "Aug 2026 – Present · 1 mo",
+    location: "Casablanca-Settat, Morocco · Remote",
+    logo: amlabsLogo,
+    description:
+      "Founded AM Labs to build AI-powered software, automation systems, and custom web applications for businesses.",
+    bullets: [
+      "Designing and developing AI-powered SaaS applications and automation systems",
+      "Building custom full-stack web applications and API integrations",
+      "Delivering AI solutions tailored to business needs across multiple industries",
+      "Managing end-to-end product development from architecture to deployment",
+    ],
+    skills: ["AI Automation", "Full-Stack Development", "SaaS", "API Integrations"],
+    current: true,
+  },
+  {
+    id: 2,
+    role: "AI & Full-Stack Developer Intern",
+    company: "E-MPGT",
+    type: "Internship",
+    period: "Aug 2026 – Present",
+    location: "Morocco · Remote",
+    logo: empgtLogo,
+    description:
+      "Contributing to the design and architecture of an AI-driven enterprise ecosystem focused on intelligent automation, knowledge management, and scalable digital infrastructures.",
+    bullets: [
+      "Researching and designing Knowledge Graph architectures and AI Agent systems",
+      "Defining enterprise automation workflows and contributing to a local AI-powered ERP system",
+      "Contributing to the E-MPGT Platform — a business ecosystem with Company and Freelancer spaces",
+      "Collaborating on Moroccan Vibrations, a next-gen e-commerce platform integrating marketplace, affiliate marketing, and AI-powered business tools",
+    ],
+    skills: ["Knowledge Graphs", "AI Agents", "ERP", "Full-Stack", "Automation"],
+    current: true,
+  },
+  {
+    id: 3,
+    role: "Full-Stack Engineer",
+    company: "BATIMOB",
+    type: "Remote",
+    period: "Jul 2026 – Present",
+    location: "Morocco · Remote",
+    logo: batimobLogo,
+    description:
+      "Collaborating on the design and development of BATIMOB's next-generation corporate website for the construction industry.",
+    bullets: [
+      "Designing and developing a premium corporate website using modern web technologies",
+      "Building responsive and multilingual interfaces (French, English, and Arabic)",
+      "Structuring the website for SEO optimization and high performance",
+      "Implementing modern UI/UX interactions and developing reusable frontend components",
+    ],
+    skills: ["React", "TypeScript", "Multilingual", "SEO", "UI/UX"],
+    current: true,
+  },
+  {
+    id: 4,
     role: "Full-Stack & AI Developer",
     company: "Geeks Institute",
     type: "Bootcamp · Internship",
-    period: "Jan 2026 – Present · 5 mos",
+    period: "Jan 2026 – Aug 2026 · 8 mos",
     location: "Casablanca, Morocco",
     logo: geeksLogo,
     description:
@@ -30,7 +90,7 @@ const experiences = [
     current: true,
   },
   {
-    id: 2,
+    id: 5,
     role: "Project Intern — Full-Stack Developer",
     company: "OCP Group",
     type: "Internship",
@@ -48,7 +108,7 @@ const experiences = [
     skills: ["JavaScript", "PHP", "MySQL", "XAMPP", "Agile"],
   },
   {
-    id: 3,
+    id: 6,
     role: "Full-Stack Developer",
     company: "EMPSI Consulting",
     type: "Internship",
@@ -66,7 +126,7 @@ const experiences = [
     skills: ["MySQL", "PHP", "JavaScript", "Git", "XAMPP"],
   },
   {
-    id: 4,
+    id: 7,
     role: "Frontend Developer",
     company: "Arkas Maroc",
     type: "Internship",
