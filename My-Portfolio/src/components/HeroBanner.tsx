@@ -227,7 +227,7 @@ const Hero = ({ isDark, onContactClick }: HeroProps) => {
           }}
         >
           {[
-            { number: 3, suffix: "+", label: "Projects Built" },
+            { number: 14, suffix: "+", label: "Projects Built" },
             { number: 5, suffix: "+", label: "Years Learning" },
             { number: 100, suffix: "%", label: "Dedication" },
           ].map((stat) => (
