@@ -322,7 +322,7 @@ const About = ({ isDark }: AboutProps) => {
 
               <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
                 {[
-                  { label: "Full CV", desc: "Complete — all experience & skills", file: "/cv-full.pdf" },
+                  { label: "Full CV", desc: "Complete — all experience & skills", file: "/FullStack_AI_CV.pdf" },
                   { label: "Tech CV", desc: "Focused on development & engineering", file: "/cv-tech.pdf" },
                   { label: "AI / ML CV", desc: "Focused on AI, data & automation", file: "/cv-ai.pdf" },
                 ].map((cv) => (
